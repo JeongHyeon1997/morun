@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "allowJs": true,
+    "noEmit": true,
+    "declaration": false,
+    "jsx": "preserve",
+    "incremental": true,
+    "typeRoots": ["./node_modules/@types"],
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@morun/shared": ["../../packages/shared/src/index.ts"],
+      "@morun/shared/*": ["../../packages/shared/src/*"],
+      "@morun/tokens": ["../../packages/tokens/src/index.ts"],
+      "@morun/tokens/*": ["../../packages/tokens/src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
