@@ -35,5 +35,28 @@ Thumbs.db
 # testing
 coverage/
 
+# next / vercel
+.vercel
+
+# expo / react-native
+web-build/
+.metro-health-check*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# supabase cli
+supabase/.branches/
+supabase/.temp/
+
+# sentry
+.sentryclirc
+
+# coverage extras
+.nyc_output/
+
 # misc
 *.tsbuildinfo
