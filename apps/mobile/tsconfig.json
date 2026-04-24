@@ -1,0 +1,14 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@morun/shared": ["../../packages/shared/src/index.ts"],
+      "@morun/shared/*": ["../../packages/shared/src/*"],
+      "@morun/tokens": ["../../packages/tokens/src/index.ts"],
+      "@morun/tokens/*": ["../../packages/tokens/src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+}
