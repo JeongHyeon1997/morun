@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -7,7 +6,11 @@ export const metadata: Metadata = {
   description: '러닝 크루 커뮤니티',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="ko">
       <body className="font-sans text-text-primary bg-white antialiased">{children}</body>

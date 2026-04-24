@@ -7,7 +7,6 @@
     "declaration": false,
     "jsx": "preserve",
     "incremental": true,
-    "typeRoots": ["./node_modules/@types"],
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
