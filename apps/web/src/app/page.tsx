@@ -8,7 +8,7 @@ import {
   type RankedCrew,
 } from '@/components/organisms';
 import { SectionHeader } from '@/components/molecules';
-import { APP_COLUMN_WIDTH, LandingFrame } from '@/components/templates';
+import { LandingFrame } from '@/components/templates';
 
 const CREWS: readonly RankedCrew[] = [
   { id: '1', name: '달리는거 좋아하냐고~', color: '#709BDA', distanceKm: 1569.4, score: 6 },
@@ -37,7 +37,7 @@ export default function HomePage() {
         </div>
         <CrewRanking crews={CREWS} />
 
-        <NotchedTabBar width={APP_COLUMN_WIDTH} />
+        <NotchedTabBar />
       </div>
     </LandingFrame>
   );

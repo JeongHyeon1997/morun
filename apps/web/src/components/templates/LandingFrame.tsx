@@ -9,7 +9,7 @@ interface LandingFrameProps {
 export function LandingFrame({ children }: LandingFrameProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#EEF1FA] via-white to-[#FBE9F1]">
-      <div className="mx-auto flex w-full max-w-[1280px] gap-10 px-6">
+      <div className="mx-auto flex w-full max-w-[1280px] gap-10 lg:px-6">
         <div className="hidden flex-1 lg:flex lg:flex-col lg:justify-center">
           <LandingHero />
         </div>

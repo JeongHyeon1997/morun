@@ -5,3 +5,4 @@ export { CrewRanking, type RankedCrew } from './CrewRanking';
 export { NotchedTabBar } from './NotchedTabBar';
 export { LandingHero } from './LandingHero';
 export { LandingAppPanel } from './LandingAppPanel';
+export { AppHeader } from './AppHeader';

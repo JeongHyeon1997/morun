@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import type { Route } from 'next';
 import { SEOUL_DISTRICTS, SEOUL_VIEWBOX } from '@morun/shared';
 import { theme } from '@morun/tokens';
 
@@ -10,19 +12,16 @@ const DISC_SIZE = 78;
 const BAR_PATH =
   'M428 76H0V0H154C159.523 0 163.896 4.52226 164.987 9.93616C169.595 32.7904 189.788 50 214 50C238.212 50 258.405 32.7904 263.013 9.93616C264.104 4.52226 268.477 0 274 0H428V76Z';
 
-interface NotchedTabBarProps {
-  width?: number;
-}
-
-export function NotchedTabBar({ width = BAR_WIDTH }: NotchedTabBarProps) {
+export function NotchedTabBar() {
   return (
     <div
-      className="relative"
-      style={{ width, height: BAR_HEIGHT, color: theme.color.textOnDark }}
+      className="relative w-full"
+      style={{ height: BAR_HEIGHT, color: theme.color.textOnDark }}
     >
-      {/* Bar background with center notch */}
+      {/* Bar background with center notch — scales with parent width via the
+          428×76 viewBox + preserveAspectRatio="none". */}
       <svg
-        width={width}
+        width="100%"
         height={BAR_HEIGHT}
         viewBox={`0 0 ${BAR_WIDTH} ${BAR_HEIGHT}`}
         preserveAspectRatio="none"
@@ -38,7 +37,7 @@ export function NotchedTabBar({ width = BAR_WIDTH }: NotchedTabBarProps) {
         <TabButton icon={<BoardIcon />} label="게시판" />
         <span aria-hidden />
         <TabButton icon={<ProfileIcon />} label="내정보" />
-        <TabButton icon={<SettingsIcon />} label="설정" />
+        <TabButton icon={<SettingsIcon />} label="설정" href="/settings" />
       </div>
 
       {/* Floating white disc — center sits exactly on the bar's top edge,
@@ -68,13 +67,14 @@ export function NotchedTabBar({ width = BAR_WIDTH }: NotchedTabBarProps) {
   );
 }
 
-interface TabButtonProps {
+interface TabButtonProps<T extends string> {
   icon: React.ReactNode;
   label: string;
+  href?: Route<T> | URL;
 }
 
-function TabButton({ icon, label }: TabButtonProps) {
-  return (
+function TabButton<T extends string>({ icon, label, href }: TabButtonProps<T>) {
+  const inner = (
     <div
       className="relative flex flex-col items-center"
       style={{ paddingBottom: 8 }}
@@ -88,6 +88,8 @@ function TabButton({ icon, label }: TabButtonProps) {
       </span>
     </div>
   );
+  if (href) return <Link href={href}>{inner}</Link>;
+  return inner;
 }
 
 // --- Icons (white on dark bar) ---
@@ -142,7 +144,7 @@ function SeoulMiniIcon({ className }: { className?: string }) {
   return (
     <svg
       width={50}
-      height={50}
+      height={43}
       viewBox={`0 0 ${SEOUL_VIEWBOX.width} ${SEOUL_VIEWBOX.height}`}
       preserveAspectRatio="xMidYMid meet"
       fill={SEOUL_FILL}
