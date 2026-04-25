@@ -1,6 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
 import { colors, spacing } from '@morun/tokens';
-import { CrewDot, CrownBadge } from '../atoms';
+import { CrewDot } from '../atoms';
+
+const RANK_IMAGE: Record<1 | 2 | 3, ImageSourcePropType> = {
+  1: require('../../../../../packages/shared/src/assets/rank-1.png'),
+  2: require('../../../../../packages/shared/src/assets/rank-2.png'),
+  3: require('../../../../../packages/shared/src/assets/rank-3.png'),
+};
 
 interface RankingRowProps {
   rank: number;
@@ -16,13 +22,17 @@ export function RankingRow({ rank, name, color, distanceKm, score }: RankingRowP
     <View style={styles.row}>
       <View style={styles.rankCol}>
         {isMedal ? (
-          <CrownBadge rank={rank as 1 | 2 | 3} size={22} />
+          <Image
+            source={RANK_IMAGE[rank as 1 | 2 | 3]}
+            style={styles.medal}
+            resizeMode="contain"
+          />
         ) : (
           <Text style={styles.rankText}>{rank}</Text>
         )}
       </View>
       <CrewDot color={color} size={10} />
-      <Text style={styles.name} numberOfLines={1}>
+      <Text style={[styles.name, { color }]} numberOfLines={1}>
         {name}
       </Text>
       <Text style={styles.distance}>
@@ -46,6 +56,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 28,
   },
+  medal: {
+    width: 22,
+    height: 24,
+  },
   rankText: {
     fontSize: 14,
     fontWeight: '700',
@@ -54,7 +68,6 @@ const styles = StyleSheet.create({
   name: {
     flex: 1,
     fontSize: 14,
-    color: colors.textPrimary,
     fontWeight: '500',
   },
   distance: {
