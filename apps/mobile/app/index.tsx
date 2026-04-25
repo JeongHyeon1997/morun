@@ -5,7 +5,7 @@ import { colors } from '@morun/tokens';
 
 export default function Splash() {
   useEffect(() => {
-    const t = setTimeout(() => router.replace('/(auth)/login'), 1500);
+    const t = setTimeout(() => router.replace('/(tabs)/main'), 1500);
     return () => clearTimeout(t);
   }, []);
 

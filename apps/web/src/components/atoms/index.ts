@@ -1,3 +1,2 @@
-// Atoms — primitive building blocks (Button, Input, Text, Icon, ...).
-// Re-export each new atom from here: `export * from "./Button";`
-export {};
+export { IconPlaceholder } from './IconPlaceholder';
+export { Pill } from './Pill';
