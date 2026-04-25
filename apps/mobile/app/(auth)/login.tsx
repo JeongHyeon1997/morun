@@ -80,7 +80,7 @@ export default function Login() {
           <Text style={styles.policy}>개인정보처리방침</Text>
         </View>
 
-        <Pressable style={styles.cta} onPress={() => router.replace('/(tabs)/main')}>
+        <Pressable style={styles.cta} onPress={() => router.replace('/(tabs)/seoul')}>
           <Text style={styles.ctaText}>로그인하기</Text>
         </Pressable>
       </KeyboardAvoidingView>

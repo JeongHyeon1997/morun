@@ -1,2 +1,4 @@
 export { IconPlaceholder } from './IconPlaceholder';
-export { Chip } from './Chip';
+export { CrewDot } from './CrewDot';
+export { RankBadge } from './RankBadge';
+export { SeoulShape } from './SeoulShape';
