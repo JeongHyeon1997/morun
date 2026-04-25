@@ -1,14 +1,4 @@
-import Image, { type StaticImageData } from 'next/image';
-import rank1 from '@morun/shared/assets/rank-1.png';
-import rank2 from '@morun/shared/assets/rank-2.png';
-import rank3 from '@morun/shared/assets/rank-3.png';
-import { CrewDot } from '../atoms';
-
-const RANK_IMAGE: Record<1 | 2 | 3, StaticImageData> = {
-  1: rank1,
-  2: rank2,
-  3: rank3,
-};
+import { CrewDot, MedalImage } from '../atoms';
 
 interface RankingRowProps {
   rank: number;
@@ -24,15 +14,14 @@ export function RankingRow({ rank, name, color, distanceKm, score }: RankingRowP
     <li className="flex items-center gap-2 py-2">
       <span className="flex h-7 w-7 items-center justify-center">
         {isMedal ? (
-          <Image
-            src={RANK_IMAGE[rank as 1 | 2 | 3]}
-            alt={`${rank}위`}
-            width={22}
-            height={24}
-            className="h-6 w-auto"
-          />
+          <MedalImage rank={rank as 1 | 2 | 3} size={22} />
         ) : (
-          <span className="text-sm font-bold text-text-secondary">{rank}</span>
+          <span
+            className="flex h-5 w-5 items-center justify-center rounded-[4px] bg-[#EAEAEA] text-[12px] font-medium"
+            style={{ color: '#3C3C3C', letterSpacing: '-0.02em' }}
+          >
+            {rank}
+          </span>
         )}
       </span>
       <CrewDot color={color} size={10} />

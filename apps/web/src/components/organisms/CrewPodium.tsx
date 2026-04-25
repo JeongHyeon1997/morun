@@ -16,7 +16,9 @@ export function CrewPodium({ top3 }: CrewPodiumProps) {
   return (
     <div className="flex items-end justify-center gap-3 px-5 pb-4 pt-6">
       <PodiumCard rank={2} crewName={second.name} />
-      <PodiumCard rank={1} crewName={first.name} />
+      <div className="mb-[28px]">
+        <PodiumCard rank={1} crewName={first.name} />
+      </div>
       <PodiumCard rank={3} crewName={third.name} />
     </div>
   );

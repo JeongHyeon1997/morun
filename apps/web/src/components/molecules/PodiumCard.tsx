@@ -1,22 +1,17 @@
-import { CrownBadge } from '../atoms';
+import { MedalImage } from '../atoms';
 
 const FRAME: Record<1 | 2 | 3, string> = {
-  1: '#5C77BF',
-  2: '#52A186',
-  3: '#9079C4',
+  1: '#709BDA',
+  2: '#8EB58F',
+  3: '#B791D9',
 };
 
-const HEIGHT: Record<1 | 2 | 3, number> = {
-  1: 156,
-  2: 132,
-  3: 132,
-};
-
-const WIDTH: Record<1 | 2 | 3, number> = {
-  1: 112,
-  2: 100,
-  3: 100,
-};
+const CARD_W = 116;
+const CARD_H = 140;
+const PHOTO_INSET = 5;
+const PHOTO_SIZE = CARD_W - PHOTO_INSET * 2; // 106
+const RIBBON_W = 42;
+const RIBBON_OVERFLOW = 23;
 
 interface PodiumCardProps {
   rank: 1 | 2 | 3;
@@ -26,21 +21,38 @@ interface PodiumCardProps {
 export function PodiumCard({ rank, crewName }: PodiumCardProps) {
   const frame = FRAME[rank];
   return (
-    <div className="flex flex-col items-center" style={{ width: WIDTH[rank] }}>
-      <div className="relative z-10 -mb-4">
-        <CrownBadge rank={rank} size={rank === 1 ? 40 : 34} />
-      </div>
+    <div
+      className="relative shrink-0"
+      style={{ width: CARD_W, height: CARD_H + RIBBON_OVERFLOW }}
+    >
       <div
-        className="flex w-full flex-col overflow-hidden rounded-[14px] border-[3px] bg-white"
-        style={{ height: HEIGHT[rank], borderColor: frame }}
+        className="absolute bottom-0 left-0 flex flex-col items-center rounded-[12px] border border-[#EAEAEA]"
+        style={{
+          width: CARD_W,
+          height: CARD_H,
+          backgroundColor: frame,
+          boxShadow: '0 3px 5px rgba(0,0,0,0.1)',
+        }}
       >
-        {/* TODO(image): replace with crew cover photo */}
-        <div className="flex-1 bg-[#E5E5E5]" />
-        <div className="px-1.5 py-1.5 text-center" style={{ backgroundColor: frame }}>
-          <p className="truncate text-[11px] font-bold leading-tight tracking-tight text-white">
-            {crewName}
-          </p>
-        </div>
+        <div
+          className="mt-[5px] overflow-hidden rounded-[8px] border border-[#EAEAEA] bg-[#E5E5E5]"
+          style={{ width: PHOTO_SIZE, height: PHOTO_SIZE }}
+        />
+        <p
+          className="mt-auto mb-[8px] px-1 text-center"
+          style={{
+            color: '#3C3C3C',
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.2,
+          }}
+        >
+          {crewName}
+        </p>
+      </div>
+      <div className="absolute left-1/2 top-0 -translate-x-1/2">
+        <MedalImage rank={rank} size={RIBBON_W} />
       </div>
     </div>
   );

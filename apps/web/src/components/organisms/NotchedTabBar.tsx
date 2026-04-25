@@ -2,7 +2,6 @@ import { theme } from '@morun/tokens';
 
 const BAR_WIDTH = 428;
 const BAR_HEIGHT = 92;
-const NOTCH_DEPTH = 50;
 const DISC_SIZE = 78;
 
 // Exact figma notch path (subtract0.svg). Dark bar with a half-moon
@@ -15,8 +14,6 @@ interface NotchedTabBarProps {
 }
 
 export function NotchedTabBar({ width = BAR_WIDTH }: NotchedTabBarProps) {
-  // Container is BAR_HEIGHT tall in the document flow; the floating disc
-  // protrudes above (overflow visible) so it doesn't push siblings down.
   return (
     <div
       className="relative"
@@ -34,49 +31,57 @@ export function NotchedTabBar({ width = BAR_WIDTH }: NotchedTabBarProps) {
         <path d={BAR_PATH} fill={theme.color.tabBarDark} />
       </svg>
 
-      {/* Floating white disc that sits in the notch (half above, half inside) */}
+      {/* Side tabs — 2 left + 2 right, middle slot empty (the disc lives there) */}
+      <div className="absolute inset-0 grid grid-cols-5 items-end">
+        <TabButton icon={<CrewIcon />} label="크루" />
+        <TabButton icon={<BoardIcon />} label="게시판" />
+        <span aria-hidden />
+        <TabButton icon={<ProfileIcon />} label="내정보" />
+        <TabButton icon={<SettingsIcon />} label="설정" />
+      </div>
+
+      {/* Floating white disc — center sits exactly on the bar's top edge,
+          so half (39px) protrudes above and half drops into the notch.
+          Inside the disc: Seoul map icon (top) + "서울" label (lower),
+          both in dark text on the white disc. */}
       <div
         className="absolute left-1/2 -translate-x-1/2 rounded-full bg-white"
         style={{
           width: DISC_SIZE,
           height: DISC_SIZE,
-          top: -(DISC_SIZE / 2 - NOTCH_DEPTH / 2 - 8),
+          top: -(DISC_SIZE / 2),
           boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
         }}
-        aria-hidden
       >
-        <SeoulMiniIcon className="absolute inset-0 m-auto" />
-      </div>
-
-      {/* Tab buttons row */}
-      <div className="absolute inset-0 grid grid-cols-5 items-end pb-3">
-        <TabButton icon={<CrewIcon />} label="크루" />
-        <TabButton icon={<BoardIcon />} label="게시판" />
-        <TabButton seoul label="서울" />
-        <TabButton icon={<ProfileIcon />} label="내정보" />
-        <TabButton icon={<SettingsIcon />} label="설정" />
+        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 11 }}>
+          <SeoulMiniIcon />
+        </div>
+        <span
+          className="absolute left-0 right-0 text-center text-[12px] font-medium"
+          style={{ bottom: 16, color: '#3C3C3C', letterSpacing: '-0.02em' }}
+        >
+          서울
+        </span>
       </div>
     </div>
   );
 }
 
 interface TabButtonProps {
-  icon?: React.ReactNode;
+  icon: React.ReactNode;
   label: string;
-  seoul?: boolean;
 }
 
-function TabButton({ icon, label, seoul }: TabButtonProps) {
+function TabButton({ icon, label }: TabButtonProps) {
   return (
-    <div className="flex flex-col items-center justify-end gap-1.5">
-      {icon ? <div className="flex h-[22px] items-end justify-center">{icon}</div> : null}
+    <div
+      className="relative flex flex-col items-center"
+      style={{ paddingBottom: 8 }}
+    >
+      <div className="mb-1 flex h-[22px] items-end justify-center">{icon}</div>
       <span
         className="text-[12px] font-medium"
-        style={{
-          color: seoul ? theme.color.ink : theme.color.textOnDark,
-          letterSpacing: '-0.02em',
-          marginBottom: seoul ? 6 : 0,
-        }}
+        style={{ color: theme.color.textOnDark, letterSpacing: '-0.02em' }}
       >
         {label}
       </span>

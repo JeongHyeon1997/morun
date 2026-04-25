@@ -24,7 +24,7 @@ export function CrewRanking({ crews }: CrewRankingProps) {
           크루명
         </span>
         <span className="w-[84px] text-right text-xs font-semibold text-text-muted">거리</span>
-        <span className="w-9 text-right text-xs font-semibold text-text-muted">점수</span>
+        <span className="w-9 text-right text-xs font-semibold text-text-muted">점령</span>
       </div>
       <ul>
         {crews.map((c, i) => (
