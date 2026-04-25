@@ -85,6 +85,7 @@ Prefer invoking a skill over ad-hoc scaffolding when the task matches one.
 - **Supabase access** from the API goes through `SupabaseService` (apps/api). Never instantiate raw clients in controllers.
 - **Env:** each app has `.env.example`. Actual `.env*` files are gitignored — never commit secrets.
 - **RLS-first:** when touching DB schema, add the RLS policy in the same (or immediately next) migration. Never leave a public table with RLS off.
+- **DB state lookup:** read `supabase/SCHEMA.md` for the current schema/RLS — it is the rolled-up source of truth. Don't grep through every migration to reconstruct state. Every new migration MUST update `SCHEMA.md` in the same commit (enforced by the `rls-migration` skill).
 
 ## Working in a specific app
 

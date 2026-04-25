@@ -7,22 +7,44 @@ description: Use this skill when creating, editing, or reviewing a Supabase migr
 
 Schema changes and RLS policies are versioned together in `supabase/migrations/NNNN_<name>.sql`. Migrations are **forward-only** — never edit a migration that has been applied to any environment; write a new one.
 
+## Token-economy rule (read this first)
+
+`supabase/SCHEMA.md` is the **rolled-up source of truth** for the current schema state. Don't re-read every migration file to figure out what tables/columns/policies exist — read `SCHEMA.md`.
+
+**Hard rule:** every migration that adds, alters, or drops anything in the DB MUST update `supabase/SCHEMA.md` in the same commit. No exceptions:
+
+- New table → add a `### public.<table>` section with all columns, indexes, and RLS policies.
+- New column → update the column table for that table.
+- Drop / rename → remove or rename the entry; don't leave stale rows.
+- New policy / changed policy → update the RLS section.
+- New enum / function / trigger → update the `Enums` or `Functions / Triggers` section.
+- New migration file → append a row to the `Migration log` table at the top.
+
+If `SCHEMA.md` and the SQL files disagree, the SQL files are correct — fix `SCHEMA.md`.
+
+When you need to know "what does table X look like right now?" — read `supabase/SCHEMA.md`. Reading every migration to reconstruct state is a waste of context.
+
 ## Conventions
 
 - File name: zero-padded 4-digit sequence, e.g. `0003_add_events.sql`. Check the current highest number before creating.
 - One logical change per file (one table, or one cross-cutting policy update). Don't pile unrelated DDL into one migration.
 - Every new table ships with RLS **on the same migration or the immediately following one** — do not leave a table with RLS disabled between migrations.
 - Default to `uuid` primary keys: `id uuid primary key default gen_random_uuid()`.
-- Always include `created_at timestamptz not null default now()` and `updated_at timestamptz` where relevant.
+- Always include `created_at timestamptz not null default now()` and `updated_at timestamptz` where relevant. If `updated_at` is set, attach the existing `public.set_updated_at()` trigger.
 - FKs: `references <table>(id) on delete cascade` (or `set null` if the child should survive).
 
-## Steps when asked to add a new table
+## Steps when asked to add or alter a table
 
-1. Read the latest numbered migration under `supabase/migrations/` to pick the next number.
-2. Create `supabase/migrations/NNNN_<descriptive_name>.sql`.
-3. Use the template below — DDL first, then `alter table ... enable row level security`, then policies.
-4. If the API will read/write the new table, also check `apps/api/src/supabase/supabase.service.ts` — confirm the service role key is used on the server side so RLS isn't the one doing the auth for trusted server calls; client-side reads from web/mobile still go through anon key + RLS.
-5. Update `supabase/seed.sql` only if the new table needs example rows for local dev.
+1. Read `supabase/SCHEMA.md` to learn the current state. Don't grep through migrations.
+2. Read the latest numbered migration under `supabase/migrations/` to pick the next number.
+3. Create `supabase/migrations/NNNN_<descriptive_name>.sql` — DDL first, then `alter table ... enable row level security`, then policies.
+4. **Update `supabase/SCHEMA.md`** in the same change set:
+   - append the new file to the `Migration log` table
+   - add/edit table sections to reflect the new state
+   - update enums / triggers / functions sections if those changed
+5. If the API will read/write the new table, sanity-check `apps/api/src/supabase/supabase.service.ts` — server uses the service role key (bypasses RLS), clients on web/mobile use anon key + RLS.
+6. Update `supabase/seed.sql` only if the new table needs example rows for local dev.
+7. If the change introduces a new resource exposed to the apps, also update / add the matching Zod schema in `packages/shared` (use the `shared-schema` skill).
 
 ## Migration template (new table + RLS)
 
@@ -80,6 +102,27 @@ create policy "events_delete_creator"
   using (created_by = auth.uid());
 ```
 
+After writing the SQL, the matching `SCHEMA.md` edit looks like this (paste under `## Tables`):
+
+```md
+### `public.events`
+| col | type | notes |
+| --- | --- | --- |
+| `id` | uuid PK | `default gen_random_uuid()` |
+| `crew_id` | uuid | NOT NULL → `crews(id)` ON DELETE CASCADE |
+| `title` | text | NOT NULL |
+| `starts_at` | timestamptz | NOT NULL |
+| `created_by` | uuid | NOT NULL → `auth.users(id)` ON DELETE CASCADE |
+| `created_at` | timestamptz | NOT NULL default now() |
+| `updated_at` | timestamptz | nullable |
+
+- Indexes: `events_crew_id_idx (crew_id)`, `events_starts_at_idx (starts_at)`
+- RLS: **ON**
+  - `SELECT` — crew members
+  - `INSERT` — crew admins
+  - `UPDATE` / `DELETE` — `created_by = auth.uid()`
+```
+
 ## Altering an existing table
 
 Use a new migration. Pattern:
@@ -89,7 +132,9 @@ Use a new migration. Pattern:
 alter table public.events add column location text;
 ```
 
-If the change affects what anonymous/authenticated users can see, **also** drop and recreate the relevant policy in the same file — don't let policies drift from the column set.
+Then update the `events` row table in `SCHEMA.md` to include `location`.
+
+If the change affects what anonymous/authenticated users can see, **also** drop and recreate the relevant policy in the same file — don't let policies drift from the column set — and update the RLS bullets in `SCHEMA.md`.
 
 ## Rules
 
@@ -98,3 +143,4 @@ If the change affects what anonymous/authenticated users can see, **also** drop 
 - If a policy references a column, that column must exist in the same migration or earlier.
 - Prefer `security invoker` view/function defaults — avoid `security definer` unless the user explicitly needs superuser behavior.
 - Do not put secrets, env-specific values, or hardcoded UUIDs in migrations. Seeding belongs in `supabase/seed.sql`.
+- Never ship a migration without updating `SCHEMA.md` in the same commit.
