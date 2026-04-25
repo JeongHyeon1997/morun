@@ -37,8 +37,6 @@ export default function HomePage() {
         </div>
         <CrewRanking crews={CREWS} />
 
-        <div className="h-6" />
-
         <NotchedTabBar width={APP_COLUMN_WIDTH} />
       </div>
     </LandingFrame>
