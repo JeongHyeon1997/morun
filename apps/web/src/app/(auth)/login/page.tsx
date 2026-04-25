@@ -3,7 +3,13 @@
 import { useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button, IconChevron, TextField } from '@/components/atoms';
+import {
+  Button,
+  IconChevron,
+  SocialButton,
+  TextField,
+  type SocialProvider,
+} from '@/components/atoms';
 import { useAuthStore } from '@/lib/auth/store';
 
 export default function LoginPage() {
@@ -15,6 +21,13 @@ export default function LoginPage() {
 
   const canSubmit =
     nickname.trim().length >= 2 && password.length >= 1 && !submitting;
+
+  const onSocial = (provider: SocialProvider) => {
+    // TODO(auth): trigger OAuth flow per provider.
+    //   - google / apple: Supabase signInWithOAuth({ provider })
+    //   - kakao / naver: SDK + custom backend exchange (POST /auth/oauth/<p>)
+    console.warn(`[social-login] ${provider} not yet wired`);
+  };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,10 +102,29 @@ export default function LoginPage() {
               비밀번호 찾기
             </Link>
             <span aria-hidden className="block h-2.5 w-px bg-input-placeholder" />
-            <Link href="/" className="hover:underline">
+            <Link href="/signup" className="hover:underline">
               회원가입
             </Link>
           </nav>
+
+          <div className="mt-10 flex items-center gap-3">
+            <span className="h-px flex-1 bg-input-placeholder" aria-hidden />
+            <span className="text-xs text-input-placeholder">또는</span>
+            <span className="h-px flex-1 bg-input-placeholder" aria-hidden />
+          </div>
+
+          <div className="mt-5 flex justify-center gap-4">
+            {(['kakao', 'naver', 'google', 'apple'] as SocialProvider[]).map(
+              (p) => (
+                <SocialButton
+                  key={p}
+                  provider={p}
+                  onClick={() => onSocial(p)}
+                  disabled={submitting}
+                />
+              ),
+            )}
+          </div>
 
           <div className="flex-1" />
 

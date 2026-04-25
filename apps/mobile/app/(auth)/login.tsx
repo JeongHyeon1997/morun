@@ -11,6 +11,7 @@ import {
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, spacing } from '@morun/tokens';
+import { SocialButton, type SocialProvider } from '@/components/atoms';
 import { useAuthStore } from '@/lib/auth/store';
 
 export default function Login() {
@@ -41,6 +42,12 @@ export default function Login() {
       'dev-token',
     );
     router.replace('/(tabs)/seoul');
+  };
+
+  const onSocial = (_provider: SocialProvider) => {
+    // TODO(auth): trigger OAuth flow per provider.
+    //   - google / apple: Supabase signInWithOAuth({ provider }) via expo-auth-session
+    //   - kakao / naver: native SDK + custom backend exchange
   };
 
   return (
@@ -121,6 +128,25 @@ export default function Login() {
             <Pressable hitSlop={8} onPress={() => router.push('/(auth)/signup')}>
               <Text style={styles.link}>회원가입</Text>
             </Pressable>
+          </View>
+
+          <View style={styles.orRow}>
+            <View style={styles.orLine} />
+            <Text style={styles.orText}>또는</Text>
+            <View style={styles.orLine} />
+          </View>
+
+          <View style={styles.socials}>
+            {(['kakao', 'naver', 'google', 'apple'] as SocialProvider[]).map(
+              (p) => (
+                <SocialButton
+                  key={p}
+                  provider={p}
+                  onPress={() => onSocial(p)}
+                  disabled={submitting}
+                />
+              ),
+            )}
           </View>
 
           <View style={styles.spacer} />
@@ -218,6 +244,22 @@ const styles = StyleSheet.create({
     width: 1,
     height: 10,
     backgroundColor: colors.inputPlaceholder,
+  },
+
+  orRow: {
+    marginTop: spacing[10],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[3],
+  },
+  orLine: { flex: 1, height: 1, backgroundColor: colors.inputPlaceholder },
+  orText: { fontSize: 12, color: colors.inputPlaceholder },
+
+  socials: {
+    marginTop: spacing[5],
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: spacing[4],
   },
 
   spacer: { flex: 1 },

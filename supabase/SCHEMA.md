@@ -14,6 +14,7 @@
 | --- | --- |
 | `0001_init.sql` | initial tables: crews, profiles, posts, comments, post_likes + triggers |
 | `0002_rls.sql` | RLS enabled on all tables + base policies |
+| `0003_profiles_optional_fields.sql` | drop NOT NULL on `profiles.name` and `profiles.phone` (minimal-signup model) |
 
 ---
 
@@ -45,9 +46,9 @@
 | --- | --- | --- |
 | `id` | uuid PK | → `auth.users(id)` ON DELETE CASCADE |
 | `nickname` | text | NOT NULL, UNIQUE |
-| `name` | text | NOT NULL |
+| `name` | text | nullable — populated post-signup |
 | `email` | text | NOT NULL |
-| `phone` | text | NOT NULL |
+| `phone` | text | nullable — populated when feature requires (e.g., race signup) |
 | `avatar_url` | text | nullable |
 | `crew_id` | uuid | nullable → `crews(id)` ON DELETE SET NULL |
 | `is_crew_leader` | bool | NOT NULL default false |
