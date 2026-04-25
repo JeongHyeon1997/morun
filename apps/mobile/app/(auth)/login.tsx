@@ -11,16 +11,35 @@ import {
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, spacing } from '@morun/tokens';
+import { useAuthStore } from '@/lib/auth/store';
 
 export default function Login() {
+  const setSession = useAuthStore((s) => s.setSession);
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const canSubmit = nickname.trim().length >= 2 && password.length >= 1;
+  const canSubmit =
+    nickname.trim().length >= 2 && password.length >= 1 && !submitting;
 
   const onSubmit = () => {
     if (!canSubmit) return;
+    setSubmitting(true);
+    // TODO(auth): replace with real /auth/login call (axios + signInSchema).
+    // For now, populate the auth store with the entered identity so the rest
+    // of the app can consume session state during UI development.
+    const trimmed = nickname.trim();
+    setSession(
+      {
+        id: `local-${trimmed}`,
+        nickname: trimmed,
+        email: `${trimmed}@morun.local`,
+        name: trimmed,
+        avatarUrl: null,
+      },
+      'dev-token',
+    );
     router.replace('/(tabs)/seoul');
   };
 

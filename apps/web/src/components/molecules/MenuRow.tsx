@@ -5,6 +5,7 @@ import { IconChevron } from '../atoms';
 interface MenuRowProps<T extends string> {
   label: string;
   href?: Route<T> | URL;
+  onClick?: () => void;
   destructive?: boolean;
   trailing?: React.ReactNode;
 }
@@ -12,6 +13,7 @@ interface MenuRowProps<T extends string> {
 export function MenuRow<T extends string>({
   label,
   href,
+  onClick,
   destructive,
   trailing,
 }: MenuRowProps<T>) {
@@ -32,6 +34,13 @@ export function MenuRow<T extends string>({
       <Link href={href} className="block">
         {body}
       </Link>
+    );
+  }
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} className="block w-full text-left">
+        {body}
+      </button>
     );
   }
   return body;

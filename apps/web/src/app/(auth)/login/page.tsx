@@ -4,18 +4,36 @@ import { useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button, IconChevron, TextField } from '@/components/atoms';
+import { useAuthStore } from '@/lib/auth/store';
 
 export default function LoginPage() {
   const router = useRouter();
+  const setSession = useAuthStore((s) => s.setSession);
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  const canSubmit = nickname.trim().length >= 2 && password.length >= 1;
+  const canSubmit =
+    nickname.trim().length >= 2 && password.length >= 1 && !submitting;
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!canSubmit) return;
-    // TODO(auth): wire Supabase signIn with @morun/shared signInSchema
+    setSubmitting(true);
+    // TODO(auth): replace with real /auth/login call (axios + signInSchema).
+    // For now, populate the auth store with the entered identity so the rest
+    // of the app can consume session state during UI development.
+    const trimmed = nickname.trim();
+    setSession(
+      {
+        id: `local-${trimmed}`,
+        nickname: trimmed,
+        email: `${trimmed}@morun.local`,
+        name: trimmed,
+        avatarUrl: null,
+      },
+      'dev-token',
+    );
     router.push('/');
   };
 
