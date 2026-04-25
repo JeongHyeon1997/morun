@@ -15,6 +15,12 @@ export default {
         'text-muted': colors.textMuted,
         border: colors.border,
         divider: colors.divider,
+        ink: colors.ink,
+        'tab-bar-dark': colors.tabBarDark,
+        'border-soft': colors.borderSoft,
+        'input-placeholder': colors.inputPlaceholder,
+        'input-underline': colors.inputUnderline,
+        danger: colors.danger,
       },
       borderRadius: {
         sm: `${radius.sm}px`,
