@@ -76,7 +76,7 @@ export default function SeoulTerritory() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
-  scroll: { paddingBottom: spacing[6] },
+  scroll: { paddingBottom: spacing[10] },
   mapWrap: {
     paddingHorizontal: spacing[5],
   },

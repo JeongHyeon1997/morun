@@ -1,12 +1,13 @@
 import { Tabs } from 'expo-router';
 import { colors } from '@morun/tokens';
 import { IconPlaceholder } from '@/components/atoms';
+import { NotchedTabBar } from '@/components/organisms';
 
-// TODO(icons): swap each placeholder for the real asset (including 서울).
+// TODO(icons): swap each placeholder for the real asset (including 서울 outline icon).
 function placeholderIcon(label: string, big = false) {
   return ({ focused }: { focused: boolean }) => (
     <IconPlaceholder
-      size={big ? 30 : 24}
+      size={big ? 32 : 24}
       variant={big ? 'circle' : 'square'}
       tone={focused ? 'primary' : 'muted'}
       label={label}
@@ -17,12 +18,11 @@ function placeholderIcon(label: string, big = false) {
 export default function TabsLayout() {
   return (
     <Tabs
+      tabBar={(props) => <NotchedTabBar {...props} />}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: { backgroundColor: colors.background, borderTopColor: colors.divider },
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
       }}
     >
       <Tabs.Screen name="crew" options={{ title: '크루', tabBarIcon: placeholderIcon('크루') }} />

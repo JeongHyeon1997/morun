@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { colors, spacing } from '@morun/tokens';
-import { CrewDot, RankBadge } from '../atoms';
+import { CrewDot, CrownBadge } from '../atoms';
 
 interface RankingRowProps {
   rank: number;
@@ -11,16 +11,23 @@ interface RankingRowProps {
 }
 
 export function RankingRow({ rank, name, color, distanceKm, score }: RankingRowProps) {
+  const isMedal = rank >= 1 && rank <= 3;
   return (
     <View style={styles.row}>
-      <View style={styles.badgeCol}>
-        <RankBadge rank={rank} size={22} />
+      <View style={styles.rankCol}>
+        {isMedal ? (
+          <CrownBadge rank={rank as 1 | 2 | 3} size={22} />
+        ) : (
+          <Text style={styles.rankText}>{rank}</Text>
+        )}
       </View>
       <CrewDot color={color} size={10} />
       <Text style={styles.name} numberOfLines={1}>
         {name}
       </Text>
-      <Text style={styles.distance}>{distanceKm.toLocaleString(undefined, { minimumFractionDigits: 1 })}km</Text>
+      <Text style={styles.distance}>
+        {distanceKm.toLocaleString(undefined, { minimumFractionDigits: 1 })}km
+      </Text>
       <Text style={styles.score}>{score}</Text>
     </View>
   );
@@ -33,9 +40,16 @@ const styles = StyleSheet.create({
     gap: spacing[2],
     paddingVertical: spacing[2],
   },
-  badgeCol: {
+  rankCol: {
     width: 28,
     alignItems: 'center',
+    justifyContent: 'center',
+    height: 28,
+  },
+  rankText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.textSecondary,
   },
   name: {
     flex: 1,

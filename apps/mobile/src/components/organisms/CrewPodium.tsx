@@ -17,9 +17,9 @@ export function CrewPodium({ top3 }: CrewPodiumProps) {
   const [first, second, third] = top3;
   return (
     <View style={styles.row}>
-      <PodiumCard rank={2} crewName={second.name} crewColor={second.color} />
-      <PodiumCard rank={1} crewName={first.name} crewColor={first.color} />
-      <PodiumCard rank={3} crewName={third.name} crewColor={third.color} />
+      <PodiumCard rank={2} crewName={second.name} />
+      <PodiumCard rank={1} crewName={first.name} />
+      <PodiumCard rank={3} crewName={third.name} />
     </View>
   );
 }

@@ -1,43 +1,48 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { colors, radius } from '@morun/tokens';
-import { RankBadge } from '../atoms';
+import { CrownBadge } from '../atoms';
 
-const FRAME_COLOR: Record<1 | 2 | 3, string> = {
-  1: '#7C5CFF', // 1위: 보라
-  2: '#3F8F6E', // 2위: 청록 그린
-  3: '#9F6A2E', // 3위: 브론즈
+const FRAME: Record<1 | 2 | 3, string> = {
+  1: '#5C77BF', // dark blue (1위)
+  2: '#52A186', // teal (2위)
+  3: '#9079C4', // purple (3위)
 };
 
 const HEIGHT: Record<1 | 2 | 3, number> = {
-  1: 196,
-  2: 168,
-  3: 168,
+  1: 156,
+  2: 132,
+  3: 132,
+};
+
+const WIDTH: Record<1 | 2 | 3, number> = {
+  1: 112,
+  2: 100,
+  3: 100,
 };
 
 interface PodiumCardProps {
   rank: 1 | 2 | 3;
   crewName: string;
-  crewColor?: string;
 }
 
-export function PodiumCard({ rank, crewName, crewColor }: PodiumCardProps) {
+export function PodiumCard({ rank, crewName }: PodiumCardProps) {
+  const frame = FRAME[rank];
   return (
-    <View style={styles.wrap}>
-      <View style={[styles.badgeOffset, { zIndex: 2 }]}>
-        <RankBadge rank={rank} size={36} />
+    <View style={[styles.wrap, { width: WIDTH[rank] }]}>
+      <View style={styles.crownAnchor}>
+        <CrownBadge rank={rank} size={rank === 1 ? 40 : 34} />
       </View>
       <View
         style={[
           styles.card,
           {
             height: HEIGHT[rank],
-            borderColor: FRAME_COLOR[rank],
+            borderColor: frame,
           },
         ]}
       >
         {/* TODO(image): replace with crew cover photo */}
-        <View style={[styles.cover, crewColor ? { backgroundColor: crewColor + '22' } : null]} />
-        <View style={styles.nameStrip}>
+        <View style={styles.photo} />
+        <View style={[styles.nameStrip, { backgroundColor: frame }]}>
           <Text numberOfLines={1} style={styles.name}>
             {crewName}
           </Text>
@@ -50,31 +55,31 @@ export function PodiumCard({ rank, crewName, crewColor }: PodiumCardProps) {
 const styles = StyleSheet.create({
   wrap: {
     alignItems: 'center',
-    width: 104,
   },
-  badgeOffset: {
-    marginBottom: -18,
+  crownAnchor: {
+    zIndex: 2,
+    marginBottom: -18, // pull the card up so the crown sits half above the card
   },
   card: {
     width: '100%',
-    borderRadius: radius.md,
+    borderRadius: 14,
     borderWidth: 3,
     overflow: 'hidden',
-    backgroundColor: colors.background,
+    backgroundColor: '#FFFFFF',
   },
-  cover: {
+  photo: {
     flex: 1,
-    backgroundColor: colors.surfaceAlt,
+    backgroundColor: '#E5E5E5',
   },
   nameStrip: {
     paddingVertical: 6,
-    paddingHorizontal: 8,
-    backgroundColor: 'rgba(0,0,0,0.55)',
+    paddingHorizontal: 6,
   },
   name: {
     color: '#FFFFFF',
     fontSize: 11,
     fontWeight: '700',
     textAlign: 'center',
+    letterSpacing: -0.2,
   },
 });
