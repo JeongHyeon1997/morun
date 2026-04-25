@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const url = process.env.EXPO_PUBLIC_SUPABASE_URL!;
 const anonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
+const schema = process.env.EXPO_PUBLIC_SUPABASE_DB_SCHEMA ?? 'public';
 
 export const supabase = createClient(url, anonKey, {
   auth: {
@@ -12,4 +13,5 @@ export const supabase = createClient(url, anonKey, {
     persistSession: true,
     detectSessionInUrl: false,
   },
+  db: { schema },
 });

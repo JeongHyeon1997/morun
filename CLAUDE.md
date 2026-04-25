@@ -86,6 +86,7 @@ Prefer invoking a skill over ad-hoc scaffolding when the task matches one.
 - **Env:** each app has `.env.example`. Actual `.env*` files are gitignored — never commit secrets.
 - **RLS-first:** when touching DB schema, add the RLS policy in the same (or immediately next) migration. Never leave a public table with RLS off.
 - **DB state lookup:** read `supabase/SCHEMA.md` for the current schema/RLS — it is the rolled-up source of truth. Don't grep through every migration to reconstruct state. Every new migration MUST update `SCHEMA.md` in the same commit (enforced by the `rls-migration` skill).
+- **Two schemas, one project:** `public` (prod) and `test` (test data) live side-by-side in the same Supabase project; apps switch via `SUPABASE_DB_SCHEMA` env. New public-schema migrations need a parallel `test` block. Setup steps + dashboard config: `supabase/SETUP.md`.
 
 ## Working in a specific app
 

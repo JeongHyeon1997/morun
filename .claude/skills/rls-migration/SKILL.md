@@ -7,6 +7,19 @@ description: Use this skill when creating, editing, or reviewing a Supabase migr
 
 Schema changes and RLS policies are versioned together in `supabase/migrations/NNNN_<name>.sql`. Migrations are **forward-only** — never edit a migration that has been applied to any environment; write a new one.
 
+## Dual-schema rule (read this first)
+
+The Supabase project hosts **two parallel schemas in the same project**: `public` (prod) and `test` (test data). Apps switch via `SUPABASE_DB_SCHEMA` env var. See `supabase/SCHEMA.md` § "Schema isolation" and `supabase/SETUP.md`.
+
+**Hard rule:** any migration that adds, alters, or drops a table / index / policy / trigger / function in `public` MUST include a matching block for `test` in the same file. Acceptable shapes:
+
+- Single migration with two parallel sections (one targeting `public.*`, one targeting `test.*`). Preferred for small, mechanical changes.
+- A pair of sequential migrations `NNNN_change_public.sql` + `NNNN+1_change_test.sql`. Use when the public-side change is large enough that bundling them hurts readability.
+
+Either way, do not let the two schemas drift. `test.set_updated_at` and `test.sync_crew_member_count` already exist as schema-local copies (see 0004) — when you add a new public function, mirror it to test the same way.
+
+If you only need to change one schema (e.g., a hotfix on prod data), the migration must say so explicitly in a comment so a future reader doesn't assume the missing test mirror is an oversight.
+
 ## Token-economy rule (read this first)
 
 `supabase/SCHEMA.md` is the **rolled-up source of truth** for the current schema state. Don't re-read every migration file to figure out what tables/columns/policies exist — read `SCHEMA.md`.

@@ -15,6 +15,7 @@
 | `0001_init.sql` | initial tables: crews, profiles, posts, comments, post_likes + triggers |
 | `0002_rls.sql` | RLS enabled on all tables + base policies |
 | `0003_profiles_optional_fields.sql` | drop NOT NULL on `profiles.name` and `profiles.phone` (minimal-signup model) |
+| `0004_test_schema.sql` | mirror entire public schema into `test` schema (env-switched, same project) |
 
 ---
 
@@ -136,3 +137,26 @@ Attached to:
 - All RLS policies use `auth.uid()` from Supabase Auth JWT.
 - **Server-side (NestJS API)** uses the service role key and bypasses RLS — see `apps/api/src/supabase/supabase.service.ts`.
 - **Client-side (web/mobile)** uses the anon key and is bound by RLS.
+
+---
+
+## Schema isolation: `public` vs `test`
+
+The same Supabase project hosts two parallel schemas with identical structure:
+
+- `public` — production data (default)
+- `test` — test/dev data, isolated from prod rows
+
+**`auth.users` is shared** between them (Supabase Auth has only one user table per project), but every domain table (`profiles`, `crews`, `posts`, `comments`, `post_likes`) is duplicated.
+
+**App selection** is env-driven:
+
+| App | Variable | Default |
+| --- | --- | --- |
+| api | `SUPABASE_DB_SCHEMA` | `public` |
+| web | `NEXT_PUBLIC_SUPABASE_DB_SCHEMA` | `public` |
+| mobile | `EXPO_PUBLIC_SUPABASE_DB_SCHEMA` | `public` |
+
+The `test` schema must be added to the project's **Exposed schemas** list in Supabase Dashboard → Settings → API for PostgREST to serve it. See `supabase/SETUP.md`.
+
+**Maintenance:** every new public-schema migration MUST include a parallel test-schema block in the same file, or a follow-up migration that mirrors it. The `rls-migration` skill enforces this.
