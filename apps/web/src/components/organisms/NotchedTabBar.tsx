@@ -1,13 +1,13 @@
 import { theme } from '@morun/tokens';
 
 const BAR_WIDTH = 428;
-const BAR_HEIGHT = 92;
+const BAR_HEIGHT = 76;
 const DISC_SIZE = 78;
 
-// Exact figma notch path (subtract0.svg). Dark bar with a half-moon
-// cutout at top-center, smoothed by tiny Q curves at the entry/exit.
+// Notch path adapted from figma's subtract0.svg — keeps the half-moon
+// cutout (apex y=50) but shortens the bar's flat skirt to BAR_HEIGHT.
 const BAR_PATH =
-  'M428 92H0V0H154C159.523 0 163.896 4.52226 164.987 9.93616C169.595 32.7904 189.788 50 214 50C238.212 50 258.405 32.7904 263.013 9.93616C264.104 4.52226 268.477 0 274 0H428V92Z';
+  'M428 76H0V0H154C159.523 0 163.896 4.52226 164.987 9.93616C169.595 32.7904 189.788 50 214 50C238.212 50 258.405 32.7904 263.013 9.93616C264.104 4.52226 268.477 0 274 0H428V76Z';
 
 interface NotchedTabBarProps {
   width?: number;
@@ -53,12 +53,12 @@ export function NotchedTabBar({ width = BAR_WIDTH }: NotchedTabBarProps) {
           boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
         }}
       >
-        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 11 }}>
+        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 14 }}>
           <SeoulMiniIcon />
         </div>
         <span
-          className="absolute left-0 right-0 text-center text-[12px] font-medium"
-          style={{ bottom: 16, color: '#3C3C3C', letterSpacing: '-0.02em' }}
+          className="absolute left-0 right-0 text-center text-[12px] font-medium leading-none"
+          style={{ bottom: 14, color: '#3C3C3C', letterSpacing: '-0.02em' }}
         >
           서울
         </span>
@@ -135,11 +135,14 @@ function SettingsIcon() {
 }
 
 function SeoulMiniIcon({ className }: { className?: string }) {
+  // The path's actual content occupies y=14..41 of the source artwork; the
+  // upper 14px are empty. Cropping the viewBox lets the visible Seoul shape
+  // fill the rendered SVG box, so it looks proportionally large in the disc.
   return (
     <svg
-      width={56}
-      height={41}
-      viewBox="0 0 56 41"
+      width={64}
+      height={31}
+      viewBox="0 14 56 27"
       fill="none"
       className={className}
       aria-hidden
