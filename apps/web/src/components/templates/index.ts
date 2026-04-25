@@ -1,1 +1,1 @@
-export { HomeTemplate } from './HomeTemplate';
+export { LandingFrame, APP_COLUMN_WIDTH } from './LandingFrame';

@@ -1,2 +1,3 @@
 export { IconPlaceholder } from './IconPlaceholder';
-export { Pill } from './Pill';
+export { CrewDot } from './CrewDot';
+export { CrownBadge } from './CrownBadge';

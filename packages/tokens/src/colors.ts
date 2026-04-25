@@ -34,6 +34,30 @@ export const colors = {
   inputUnderline: '#E0E0E0',
   inputUnderlineFocus: '#1E2338',
   inputPlaceholder: '#B0B0B0',
+
+  // Territory game (figma-extracted)
+  ink: '#3C3C3C',
+  borderSoft: '#EAEAEA',
+  tabBarDark: '#3A3A3A',
 } as const;
 
 export type ColorToken = keyof typeof colors;
+
+// Crew territory palette — assigned per crew, also used as the dot color in
+// the ranking row and the card frame on the podium.
+export const territoryPalette = {
+  blue: '#709BDA',
+  green: '#8EB58F',
+  purple: '#B791D9',
+  red: '#D26A6A',
+  lightBlue: '#A8DEFF',
+} as const;
+
+export type TerritoryColor = (typeof territoryPalette)[keyof typeof territoryPalette];
+
+// Olympic medal colors used on rank 1-3 badges + ribbon medals.
+export const medalPalette = {
+  1: { fill: '#FFD438', dark: '#D4A317' },
+  2: { fill: '#8A8F99', dark: '#626670' },
+  3: { fill: '#AF8A64', dark: '#896136' },
+} as const;
