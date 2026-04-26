@@ -43,8 +43,10 @@ export function NotchedTabBar() {
       {/* Floating white disc — center sits exactly on the bar's top edge,
           so half (39px) protrudes above and half drops into the notch.
           Inside the disc: Seoul map icon (top) + "서울" label (lower),
-          both in dark text on the white disc. */}
-      <div
+          both in dark text on the white disc. Acts as the home link. */}
+      <Link
+        href="/"
+        aria-label="홈으로 이동"
         className="absolute left-1/2 -translate-x-1/2 rounded-full bg-white"
         style={{
           width: DISC_SIZE,
@@ -53,16 +55,16 @@ export function NotchedTabBar() {
           boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
         }}
       >
-        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 10 }}>
+        <span className="absolute left-1/2 -translate-x-1/2" style={{ top: 10 }}>
           <SeoulMiniIcon />
-        </div>
+        </span>
         <span
           className="absolute left-0 right-0 text-center text-[12px] font-medium leading-none"
           style={{ bottom: 9, color: '#3C3C3C', letterSpacing: '-0.02em' }}
         >
           서울
         </span>
-      </div>
+      </Link>
     </div>
   );
 }
