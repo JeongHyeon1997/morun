@@ -36,7 +36,7 @@ export function NotchedTabBar() {
         <TabButton icon={<CrewIcon />} label="크루" href="/crew" />
         <TabButton icon={<BoardIcon />} label="게시판" />
         <span aria-hidden />
-        <TabButton icon={<ProfileIcon />} label="내정보" />
+        <TabButton icon={<ProfileIcon />} label="내정보" href="/profile" />
         <TabButton icon={<SettingsIcon />} label="설정" href="/settings" />
       </div>
 

@@ -1,7 +1,9 @@
 type PillTone = 'muted' | 'accent';
+type PillSize = 'sm' | 'md';
 
 interface PillProps {
   tone?: PillTone;
+  size?: PillSize;
   children: React.ReactNode;
   className?: string;
 }
@@ -11,10 +13,20 @@ const TONE_CLASS: Record<PillTone, string> = {
   accent: 'bg-brand/10 text-brand',
 };
 
-export function Pill({ tone = 'muted', children, className = '' }: PillProps) {
+const SIZE_CLASS: Record<PillSize, string> = {
+  sm: 'px-2 py-0.5 text-[11px]',
+  md: 'px-2.5 py-1 text-[12px]',
+};
+
+export function Pill({
+  tone = 'muted',
+  size = 'sm',
+  children,
+  className = '',
+}: PillProps) {
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ${TONE_CLASS[tone]} ${className}`}
+      className={`inline-flex items-center rounded-full font-medium ${SIZE_CLASS[size]} ${TONE_CLASS[tone]} ${className}`}
     >
       {children}
     </span>

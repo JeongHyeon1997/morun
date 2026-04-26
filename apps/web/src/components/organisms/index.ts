@@ -8,3 +8,5 @@ export { LandingAppPanel } from './LandingAppPanel';
 export { AppHeader } from './AppHeader';
 export { CrewDetailHero } from './CrewDetailHero';
 export { CrewMemberList } from './CrewMemberList';
+export { ProfileHeader, type ProfileHeaderData } from './ProfileHeader';
+export { ProfilePhotoGrid, type ProfilePhoto } from './ProfilePhotoGrid';

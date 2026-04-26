@@ -5,6 +5,7 @@ export { IconChevron } from './IconChevron';
 export { IconHamburger } from './IconHamburger';
 export { IconPeople } from './IconPeople';
 export { IconPlus } from './IconPlus';
+export { IconRunner } from './IconRunner';
 export { Button } from './Button';
 export { TextField } from './TextField';
 export { SocialButton, type SocialProvider } from './SocialButton';
