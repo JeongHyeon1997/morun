@@ -10,3 +10,4 @@ export { CrewDetailHero } from './CrewDetailHero';
 export { CrewMemberList } from './CrewMemberList';
 export { ProfileHeader, type ProfileHeaderData } from './ProfileHeader';
 export { ProfilePhotoGrid, type ProfilePhoto } from './ProfilePhotoGrid';
+export { BoardFilters, type BoardFilter } from './BoardFilters';

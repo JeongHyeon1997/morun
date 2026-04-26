@@ -34,7 +34,7 @@ export function NotchedTabBar() {
       {/* Side tabs — 2 left + 2 right, middle slot empty (the disc lives there) */}
       <div className="absolute inset-0 grid grid-cols-5 items-end">
         <TabButton icon={<CrewIcon />} label="크루" href="/crew" />
-        <TabButton icon={<BoardIcon />} label="게시판" />
+        <TabButton icon={<BoardIcon />} label="게시판" href="/board" />
         <span aria-hidden />
         <TabButton icon={<ProfileIcon />} label="내정보" href="/profile" />
         <TabButton icon={<SettingsIcon />} label="설정" href="/settings" />
