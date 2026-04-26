@@ -11,6 +11,7 @@ export { IconChat } from './IconChat';
 export { IconShare } from './IconShare';
 export { IconBookmark } from './IconBookmark';
 export { IconDots } from './IconDots';
+export { IconCalendar } from './IconCalendar';
 export { Button } from './Button';
 export { TextField } from './TextField';
 export { SocialButton, type SocialProvider } from './SocialButton';

@@ -1,7 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import type { Route } from 'next';
+import { useEffect, useState } from 'react';
 import { SEOUL_DISTRICTS, SEOUL_VIEWBOX } from '@morun/shared';
 import { theme } from '@morun/tokens';
+import { useCrewStore } from '@/lib/crew/store';
 
 const BAR_WIDTH = 428;
 const BAR_HEIGHT = 76;
@@ -13,6 +17,16 @@ const BAR_PATH =
   'M428 76H0V0H154C159.523 0 163.896 4.52226 164.987 9.93616C169.595 32.7904 189.788 50 214 50C238.212 50 258.405 32.7904 263.013 9.93616C264.104 4.52226 268.477 0 274 0H428V76Z';
 
 export function NotchedTabBar() {
+  // Persisted membership only resolves on the client. Render the default
+  // "설정" tab during SSR + first paint, swap to "일정" after hydration so
+  // a joined user lands on the schedule tab. Avoids hydration mismatch.
+  const [hydrated, setHydrated] = useState(false);
+  const joinedCrewId = useCrewStore((s) => s.joinedCrewId);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+  const isJoined = hydrated && joinedCrewId !== null;
+
   return (
     <div
       className="relative w-full"
@@ -37,7 +51,11 @@ export function NotchedTabBar() {
         <TabButton icon={<BoardIcon />} label="게시판" href="/board" />
         <span aria-hidden />
         <TabButton icon={<ProfileIcon />} label="내정보" href="/profile" />
-        <TabButton icon={<SettingsIcon />} label="설정" href="/settings" />
+        {isJoined ? (
+          <TabButton icon={<CalendarIcon />} label="일정" href="/schedule" />
+        ) : (
+          <TabButton icon={<SettingsIcon />} label="설정" href="/settings" />
+        )}
       </div>
 
       {/* Floating white disc — center sits exactly on the bar's top edge,
@@ -135,6 +153,15 @@ function SettingsIcon() {
     <svg width={22} height={22} viewBox="0 0 22 22" fill="none">
       <path d="M10.32 0.630601C10.7036 0.274907 11.2964 0.274907 11.68 0.630601L14.02 2.80069C14.1954 2.96334 14.4233 3.05774 14.6623 3.06675L17.8515 3.18691C18.3742 3.2066 18.7934 3.62582 18.8131 4.14855L18.9333 7.33767C18.9423 7.57671 19.0367 7.80461 19.1993 7.98L21.3694 10.32C21.7251 10.7036 21.7251 11.2964 21.3694 11.68L19.1993 14.02C19.0367 14.1954 18.9423 14.4233 18.9333 14.6623L18.8131 17.8515C18.7934 18.3742 18.3742 18.7934 17.8515 18.8131L14.6623 18.9333C14.4233 18.9423 14.1954 19.0367 14.02 19.1993L11.68 21.3694C11.2964 21.7251 10.7036 21.7251 10.32 21.3694L7.98 19.1993C7.80461 19.0367 7.57671 18.9423 7.33767 18.9333L4.14855 18.8131C3.62582 18.7934 3.2066 18.3742 3.18691 17.8515L3.06675 14.6623C3.05774 14.4233 2.96334 14.1954 2.80069 14.02L0.630601 11.68C0.274906 11.2964 0.274907 10.7036 0.630601 10.32L2.80069 7.98C2.96334 7.80461 3.05774 7.57671 3.06675 7.33767L3.18691 4.14855C3.2066 3.62582 3.62582 3.2066 4.14855 3.18691L7.33767 3.06675C7.57671 3.05774 7.80461 2.96334 7.98 2.80069L10.32 0.630601Z" fill={ICON_FILL} />
       <circle cx={11} cy={11} r={4} fill="#EAEAEA" />
+    </svg>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg width={22} height={22} viewBox="0 0 22 22" fill="none">
+      <rect x={3} y={5} width={16} height={14} rx={2} stroke={ICON_FILL} strokeWidth={1.6} />
+      <path d="M3 9h16M7 3v4M15 3v4" stroke={ICON_FILL} strokeWidth={1.6} strokeLinecap="round" />
     </svg>
   );
 }

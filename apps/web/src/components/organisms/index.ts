@@ -11,3 +11,4 @@ export { CrewMemberList } from './CrewMemberList';
 export { ProfileHeader, type ProfileHeaderData } from './ProfileHeader';
 export { ProfilePhotoGrid, type ProfilePhoto } from './ProfilePhotoGrid';
 export { BoardFilters, type BoardFilter } from './BoardFilters';
+export { CrewActionPanel } from './CrewActionPanel';
