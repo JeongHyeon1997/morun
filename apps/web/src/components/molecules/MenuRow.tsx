@@ -2,21 +2,21 @@ import Link from 'next/link';
 import type { Route } from 'next';
 import { IconChevron } from '../atoms';
 
-interface MenuRowProps<T extends string> {
+interface MenuRowProps {
   label: string;
-  href?: Route<T> | URL;
+  href?: Route | URL;
   onClick?: () => void;
   destructive?: boolean;
   trailing?: React.ReactNode;
 }
 
-export function MenuRow<T extends string>({
+export function MenuRow({
   label,
   href,
   onClick,
   destructive,
   trailing,
-}: MenuRowProps<T>) {
+}: MenuRowProps) {
   const body = (
     <div className="flex items-center justify-between border-b border-divider px-5 py-4">
       <span

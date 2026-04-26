@@ -6,3 +6,5 @@ export { NotchedTabBar } from './NotchedTabBar';
 export { LandingHero } from './LandingHero';
 export { LandingAppPanel } from './LandingAppPanel';
 export { AppHeader } from './AppHeader';
+export { CrewDetailHero } from './CrewDetailHero';
+export { CrewMemberList } from './CrewMemberList';

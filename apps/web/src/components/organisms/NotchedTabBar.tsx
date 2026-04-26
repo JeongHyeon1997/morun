@@ -33,7 +33,7 @@ export function NotchedTabBar() {
 
       {/* Side tabs — 2 left + 2 right, middle slot empty (the disc lives there) */}
       <div className="absolute inset-0 grid grid-cols-5 items-end">
-        <TabButton icon={<CrewIcon />} label="크루" />
+        <TabButton icon={<CrewIcon />} label="크루" href="/crew" />
         <TabButton icon={<BoardIcon />} label="게시판" />
         <span aria-hidden />
         <TabButton icon={<ProfileIcon />} label="내정보" />
@@ -69,13 +69,13 @@ export function NotchedTabBar() {
   );
 }
 
-interface TabButtonProps<T extends string> {
+interface TabButtonProps {
   icon: React.ReactNode;
   label: string;
-  href?: Route<T> | URL;
+  href?: Route | URL;
 }
 
-function TabButton<T extends string>({ icon, label, href }: TabButtonProps<T>) {
+function TabButton({ icon, label, href }: TabButtonProps) {
   const inner = (
     <div
       className="relative flex flex-col items-center"
