@@ -13,13 +13,16 @@ export function LandingHero() {
           서울 러닝 크루 1위 커뮤니티
         </p>
         <h1 className="mt-3 text-4xl font-extrabold leading-tight text-text-primary md:text-5xl">
-          우리 동네{' '}
-          <span className="rounded-md bg-brand px-2 text-white">25개구</span>
-          <br />
-          땅따먹기 시작!
+          <span className="block">
+            우리 동네{' '}
+            <span className="rounded-md bg-brand px-2 text-white">25개구</span>
+          </span>
+          <span className="mt-3 block md:mt-4">땅따먹기 시작!</span>
         </h1>
-        <p className="mt-4 max-w-md text-sm text-text-secondary">
-          크루끼리 거리를 모아 서울 자치구를 점령하세요. 매주 새 챔피언이 정해집니다.
+        <p className="mt-4 max-w-md break-keep text-sm leading-relaxed text-text-secondary">
+          크루끼리 거리를 모아 서울 자치구를 점령하세요.
+          <br />
+          매주 새 챔피언이 정해집니다.
         </p>
       </div>
       <div className="max-w-md">
