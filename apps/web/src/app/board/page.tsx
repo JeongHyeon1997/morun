@@ -6,7 +6,7 @@ import {
 } from '@/components/organisms';
 import { PostListItem, type PostListItemData } from '@/components/molecules';
 import { IconPeople, IconPlus } from '@/components/atoms';
-import { LandingFrame } from '@/components/templates';
+import { LandingFrame, ScrollableScreen } from '@/components/templates';
 import Link from 'next/link';
 
 const FILTERS: readonly BoardFilter[] = [
@@ -33,13 +33,28 @@ const POSTS: readonly PostListItemData[] = Array.from({ length: 5 }, (_, i) => (
 export default function BoardPage() {
   return (
     <LandingFrame>
-      <div className="flex flex-1 flex-col">
-        <AppHeader
-          title="게시판"
-          backHref="/"
-          titleIcon={<IconPeople size={18} color="#3C3C3C" />}
-        />
-
+      <ScrollableScreen
+        header={
+          <AppHeader
+            title="게시판"
+            backHref="/"
+            titleIcon={<IconPeople size={18} color="#3C3C3C" />}
+          />
+        }
+        footer={
+          <div className="relative">
+            <Link
+              href="/board/new"
+              aria-label="글 작성"
+              className="absolute -top-16 right-4 z-10 flex h-12 items-center gap-1.5 rounded-full bg-tab-bar-dark pl-3 pr-4 text-white shadow-md"
+            >
+              <IconPlus size={16} color="#FEFEFE" />
+              <span className="text-sm font-semibold">작성</span>
+            </Link>
+            <NotchedTabBar />
+          </div>
+        }
+      >
         <BoardFilters filters={FILTERS} activeId="all" />
 
         <ul className="border-t border-divider">
@@ -47,19 +62,7 @@ export default function BoardPage() {
             <PostListItem key={post.id} post={post} />
           ))}
         </ul>
-
-        <div className="relative mt-auto">
-          <Link
-            href="/board/new"
-            aria-label="글 작성"
-            className="absolute -top-16 right-4 z-10 flex h-12 items-center gap-1.5 rounded-full bg-tab-bar-dark pl-3 pr-4 text-white shadow-md"
-          >
-            <IconPlus size={16} color="#FEFEFE" />
-            <span className="text-sm font-semibold">작성</span>
-          </Link>
-          <NotchedTabBar />
-        </div>
-      </div>
+      </ScrollableScreen>
     </LandingFrame>
   );
 }

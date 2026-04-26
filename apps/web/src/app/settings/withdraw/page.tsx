@@ -1,5 +1,5 @@
 import { AppHeader, NotchedTabBar } from '@/components/organisms';
-import { LandingFrame } from '@/components/templates';
+import { LandingFrame, ScrollableScreen } from '@/components/templates';
 
 const BULLETS = [
   '누적 거리, 점령 기록, 크루 활동 내역이 모두 삭제되며 복구할 수 없어요.',
@@ -11,10 +11,11 @@ const BULLETS = [
 export default function WithdrawPage() {
   return (
     <LandingFrame>
-      <div className="flex min-h-screen flex-col">
-        <AppHeader title="탈퇴하기" backHref="/settings" />
-
-        <div className="flex-1 px-5 py-6">
+      <ScrollableScreen
+        header={<AppHeader title="탈퇴하기" backHref="/settings" />}
+        footer={<NotchedTabBar />}
+      >
+        <div className="px-5 py-6">
           <h2 className="text-xl font-extrabold leading-tight text-text-primary">
             정말 탈퇴하시겠어요?
           </h2>
@@ -38,9 +39,7 @@ export default function WithdrawPage() {
 
           <WithdrawActions />
         </div>
-
-        <NotchedTabBar />
-      </div>
+      </ScrollableScreen>
     </LandingFrame>
   );
 }

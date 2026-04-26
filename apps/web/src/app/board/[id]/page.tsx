@@ -5,7 +5,7 @@ import {
   type CommentData,
 } from '@/components/molecules';
 import { IconDots, IconPeople, IconPlaceholder, IconRunner } from '@/components/atoms';
-import { LandingFrame } from '@/components/templates';
+import { LandingFrame, ScrollableScreen } from '@/components/templates';
 
 interface BoardDetailPageProps {
   params: Promise<{ id: string }>;
@@ -34,13 +34,32 @@ export default async function BoardDetailPage({ params }: BoardDetailPageProps) 
 
   return (
     <LandingFrame>
-      <div className="flex flex-1 flex-col">
-        <AppHeader
-          title="게시판"
-          backHref="/board"
-          titleIcon={<IconPeople size={18} color="#3C3C3C" />}
-        />
-
+      <ScrollableScreen
+        header={
+          <AppHeader
+            title="게시판"
+            backHref="/board"
+            titleIcon={<IconPeople size={18} color="#3C3C3C" />}
+          />
+        }
+        footer={
+          <div className="border-t border-divider bg-white px-4 py-2">
+            <form
+              role="search"
+              className="flex h-10 items-center gap-2 rounded-full bg-surface-alt px-4"
+            >
+              <input
+                type="text"
+                placeholder="댓글 달기"
+                className="flex-1 bg-transparent text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+              />
+              <button type="submit" className="text-sm font-semibold text-brand">
+                게시
+              </button>
+            </form>
+          </div>
+        }
+      >
         <article className="flex flex-col">
           <header className="flex items-center justify-between px-5 py-2.5">
             <div className="flex items-center gap-2">
@@ -91,23 +110,7 @@ export default async function BoardDetailPage({ params }: BoardDetailPageProps) 
             ))}
           </ul>
         </article>
-
-        <div className="sticky bottom-0 mt-auto border-t border-divider bg-white px-4 py-2">
-          <form
-            role="search"
-            className="flex h-10 items-center gap-2 rounded-full bg-surface-alt px-4"
-          >
-            <input
-              type="text"
-              placeholder="댓글 달기"
-              className="flex-1 bg-transparent text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
-            />
-            <button type="submit" className="text-sm font-semibold text-brand">
-              게시
-            </button>
-          </form>
-        </div>
-      </div>
+      </ScrollableScreen>
     </LandingFrame>
   );
 }

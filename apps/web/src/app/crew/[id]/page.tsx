@@ -5,7 +5,7 @@ import {
 } from '@/components/organisms';
 import { NoticeRow } from '@/components/molecules';
 import { Button, IconHamburger, IconPeople, Pill } from '@/components/atoms';
-import { LandingFrame } from '@/components/templates';
+import { LandingFrame, ScrollableScreen } from '@/components/templates';
 import type { CrewMember } from '@/components/molecules';
 
 interface CrewDetailPageProps {
@@ -61,18 +61,27 @@ export default async function CrewDetailPage({ params }: CrewDetailPageProps) {
 
   return (
     <LandingFrame>
-      <div className="flex flex-1 flex-col">
-        <AppHeader
-          title="크루"
-          backHref="/crew"
-          titleIcon={<IconPeople size={18} color="#3C3C3C" />}
-          rightAction={
-            <button type="button" aria-label="메뉴">
-              <IconHamburger size={20} />
-            </button>
-          }
-        />
-
+      <ScrollableScreen
+        header={
+          <AppHeader
+            title="크루"
+            backHref="/crew"
+            titleIcon={<IconPeople size={18} color="#3C3C3C" />}
+            rightAction={
+              <button type="button" aria-label="메뉴">
+                <IconHamburger size={20} />
+              </button>
+            }
+          />
+        }
+        footer={
+          <div className="border-t border-divider bg-white px-5 py-3">
+            <Button size="pill" variant="primary">
+              가입하기
+            </Button>
+          </div>
+        }
+      >
         <CrewDetailHero
           shortName="은평러닝"
           tagline={'은평구 모두의\n러닝 초보 모임'}
@@ -107,13 +116,7 @@ export default async function CrewDetailPage({ params }: CrewDetailPageProps) {
         <div className="px-1 py-3">
           <CrewMemberList members={MEMBERS} />
         </div>
-
-        <div className="sticky bottom-0 mt-auto border-t border-divider bg-white px-5 py-3">
-          <Button size="pill" variant="primary">
-            가입하기
-          </Button>
-        </div>
-      </div>
+      </ScrollableScreen>
     </LandingFrame>
   );
 }

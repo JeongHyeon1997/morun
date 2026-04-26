@@ -8,7 +8,7 @@ import {
   type RankedCrew,
 } from '@/components/organisms';
 import { SectionHeader } from '@/components/molecules';
-import { LandingFrame } from '@/components/templates';
+import { LandingFrame, ScrollableScreen } from '@/components/templates';
 
 const CREWS: readonly RankedCrew[] = [
   { id: '1', name: '달리는거 좋아하냐고~', color: '#709BDA', distanceKm: 1569.4, score: 6 },
@@ -23,7 +23,7 @@ export default function HomePage() {
 
   return (
     <LandingFrame>
-      <div className="flex flex-1 flex-col">
+      <ScrollableScreen footer={<NotchedTabBar />}>
         <TerritoryHeader region="서울" caption="25개구" />
 
         <div className="px-5">
@@ -36,11 +36,7 @@ export default function HomePage() {
           <SectionHeader title="랭킹" />
         </div>
         <CrewRanking crews={CREWS} />
-
-        <div className="mt-auto">
-          <NotchedTabBar />
-        </div>
-      </div>
+      </ScrollableScreen>
     </LandingFrame>
   );
 }

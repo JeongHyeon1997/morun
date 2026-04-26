@@ -7,7 +7,7 @@ import {
   type ProfilePhoto,
 } from '@/components/organisms';
 import { IconRunner } from '@/components/atoms';
-import { LandingFrame } from '@/components/templates';
+import { LandingFrame, ScrollableScreen } from '@/components/templates';
 
 const PROFILE: ProfileHeaderData = {
   username: 'kyuria_0123',
@@ -26,21 +26,19 @@ const PHOTOS: readonly ProfilePhoto[] = [
 export default function ProfilePage() {
   return (
     <LandingFrame>
-      <div className="flex flex-1 flex-col">
-        <AppHeader
-          title="내정보"
-          backHref="/"
-          titleIcon={<IconRunner size={20} color="#3C3C3C" />}
-        />
-
+      <ScrollableScreen
+        header={
+          <AppHeader
+            title="내정보"
+            backHref="/"
+            titleIcon={<IconRunner size={20} color="#3C3C3C" />}
+          />
+        }
+        footer={<NotchedTabBar />}
+      >
         <ProfileHeader profile={PROFILE} />
-
         <ProfilePhotoGrid photos={PHOTOS} />
-
-        <div className="mt-auto">
-          <NotchedTabBar />
-        </div>
-      </div>
+      </ScrollableScreen>
     </LandingFrame>
   );
 }

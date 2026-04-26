@@ -1,5 +1,5 @@
 import { AppHeader, NotchedTabBar } from '@/components/organisms';
-import { LandingFrame } from '@/components/templates';
+import { LandingFrame, ScrollableScreen } from '@/components/templates';
 
 const SECTIONS = [
   {
@@ -19,10 +19,11 @@ const SECTIONS = [
 export default function DocsPage() {
   return (
     <LandingFrame>
-      <div className="flex min-h-screen flex-col">
-        <AppHeader title="문서" backHref="/settings" />
-
-        <div className="flex-1 px-5 py-6">
+      <ScrollableScreen
+        header={<AppHeader title="문서" backHref="/settings" />}
+        footer={<NotchedTabBar />}
+      >
+        <div className="px-5 py-6">
           {SECTIONS.map((s) => (
             <section key={s.title} className="border-b border-divider py-5 last:border-b-0">
               <h2 className="text-base font-bold text-text-primary">{s.title}</h2>
@@ -32,9 +33,7 @@ export default function DocsPage() {
             </section>
           ))}
         </div>
-
-        <NotchedTabBar />
-      </div>
+      </ScrollableScreen>
     </LandingFrame>
   );
 }
