@@ -23,7 +23,7 @@ export default function HomePage() {
 
   return (
     <LandingFrame>
-      <div className="flex flex-col">
+      <div className="flex flex-1 flex-col">
         <TerritoryHeader region="서울" caption="25개구" />
 
         <div className="px-5">
@@ -37,7 +37,9 @@ export default function HomePage() {
         </div>
         <CrewRanking crews={CREWS} />
 
-        <NotchedTabBar />
+        <div className="mt-auto">
+          <NotchedTabBar />
+        </div>
       </div>
     </LandingFrame>
   );

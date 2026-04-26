@@ -15,7 +15,7 @@ export function LandingFrame({ children }: LandingFrameProps) {
         </div>
 
         <main
-          className="mx-auto w-full bg-white"
+          className="mx-auto flex w-full flex-col bg-white"
           style={{ maxWidth: APP_COLUMN_WIDTH }}
         >
           {children}
