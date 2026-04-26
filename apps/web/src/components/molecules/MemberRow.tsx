@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { MedalImage } from '../atoms';
 
 export interface CrewMember {
@@ -45,7 +46,12 @@ export function MemberRow({ member }: MemberRowProps) {
       </div>
 
       <div className="flex min-w-0 flex-1 items-baseline gap-2">
-        <span className="text-sm font-medium text-text-primary">{member.name}</span>
+        <Link
+          href={{ pathname: `/profile/${member.name}` }}
+          className="text-sm font-medium text-text-primary hover:underline"
+        >
+          {member.name}
+        </Link>
         {member.message ? (
           <span className="truncate text-sm text-text-secondary">{member.message}</span>
         ) : null}

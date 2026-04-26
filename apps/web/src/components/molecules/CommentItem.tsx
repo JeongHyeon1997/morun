@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { IconHeart, IconRunner } from '../atoms';
 
 export interface CommentData {
@@ -30,9 +31,12 @@ export function CommentItem({ comment }: CommentItemProps) {
 
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline gap-2">
-          <span className="text-sm font-semibold text-text-primary">
+          <Link
+            href={{ pathname: `/profile/${comment.authorName}` }}
+            className="text-sm font-semibold text-text-primary hover:underline"
+          >
             {comment.authorName}
-          </span>
+          </Link>
           <span className="text-[11px] text-text-muted">{comment.age}</span>
         </div>
         <p className="break-keep text-sm text-text-secondary">{comment.body}</p>

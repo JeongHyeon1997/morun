@@ -123,7 +123,17 @@ function JoinedHome() {
           }
         />
       }
-      footer={<NotchedTabBar />}
+      footer={
+        <div className="relative">
+          <div
+            className="absolute right-4 z-10"
+            style={{ bottom: 'calc(100% + 12px)' }}
+          >
+            <CrewActionPanel />
+          </div>
+          <NotchedTabBar />
+        </div>
+      }
     >
       <CrewDetailHero shortName="은평러닝" tagline={'은평구 모두의\n러닝 초보 모임'} />
 
@@ -137,20 +147,15 @@ function JoinedHome() {
       <div className="mt-4 h-[10px] w-full bg-surface-alt" />
 
       <ul className="px-5 py-3">
-        {NOTICES.map((title) => (
-          <NoticeRow key={title} title={title} />
+        {NOTICES.map((title, i) => (
+          <NoticeRow key={title} noticeId={`n${i + 1}`} title={title} />
         ))}
       </ul>
 
       <div className="mt-2 h-[10px] w-full bg-surface-alt" />
 
-      <div className="relative px-1 py-3">
+      <div className="px-1 py-3">
         <CrewMemberList members={MEMBERS} />
-        <div className="pointer-events-none absolute right-4 top-3">
-          <div className="pointer-events-auto">
-            <CrewActionPanel />
-          </div>
-        </div>
       </div>
 
       <div className="px-5 pb-6 pt-2 text-right">

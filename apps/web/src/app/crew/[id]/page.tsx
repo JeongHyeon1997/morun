@@ -106,8 +106,8 @@ export default async function CrewDetailPage({ params }: CrewDetailPageProps) {
         <div className="mt-6 h-[10px] w-full bg-surface-alt" />
 
         <ul className="px-5 py-3">
-          {NOTICES.map((title) => (
-            <NoticeRow key={title} title={title} />
+          {NOTICES.map((title, i) => (
+            <NoticeRow key={title} noticeId={`n${i + 1}`} title={title} />
           ))}
         </ul>
 

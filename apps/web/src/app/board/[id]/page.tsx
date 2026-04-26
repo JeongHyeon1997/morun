@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { AppHeader } from '@/components/organisms';
 import {
   CommentItem,
@@ -62,14 +63,17 @@ export default async function BoardDetailPage({ params }: BoardDetailPageProps) 
       >
         <article className="flex flex-col">
           <header className="flex items-center justify-between px-5 py-2.5">
-            <div className="flex items-center gap-2">
+            <Link
+              href={{ pathname: '/profile/kyuria_0123' }}
+              className="flex items-center gap-2"
+            >
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-surface-alt">
                 <IconRunner size={22} color="#B3B3B3" />
               </span>
-              <span className="text-sm font-semibold text-text-primary">
+              <span className="text-sm font-semibold text-text-primary hover:underline">
                 kyuria_0123
               </span>
-            </div>
+            </Link>
             <button type="button" aria-label="더보기">
               <IconDots size={20} color="#3C3C3C" />
             </button>
@@ -93,7 +97,12 @@ export default async function BoardDetailPage({ params }: BoardDetailPageProps) 
               <IconRunner size={11} color="#B3B3B3" />
             </span>
             <span>
-              <span className="font-semibold text-text-primary">kyuria_0123</span>
+              <Link
+                href={{ pathname: '/profile/kyuria_0123' }}
+                className="font-semibold text-text-primary hover:underline"
+              >
+                kyuria_0123
+              </Link>
               님 외 여러 명이 좋아합니다.
             </span>
           </div>
